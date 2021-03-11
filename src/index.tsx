@@ -1,20 +1,22 @@
+import "./public-path";
 import React from "react";
 import ReactDOM from "react-dom";
 import "./index.css";
 import App from "./App";
 
-function render() {
+function render(props: any) {
+  const { container } = props;
   ReactDOM.render(
-    <React.StrictMode>
-      <App />
-    </React.StrictMode>,
-    document.getElementById("root")
+    <App />,
+    container
+      ? container.querySelector("#root")
+      : document.querySelector("#root")
   );
 }
 
 // @ts-ignore
 if (!window.__POWERED_BY_QIANKUN__) {
-  render();
+  render({});
 }
 
 /**
@@ -29,12 +31,7 @@ export async function bootstrap() {
  * 应用每次进入都会调用 mount 方法，通常我们在这里触发应用的渲染方法
  */
 export async function mount(props: any) {
-  ReactDOM.render(
-    <App />,
-    props.container
-      ? props.container.querySelector("#root")
-      : document.getElementById("root")
-  );
+  render(props);
 }
 
 /**
